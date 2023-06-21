@@ -1,5 +1,4 @@
 const cart = [];
-let cartQuantity = 0;
 
 // product argument is a string for the name of the product
 function addToCart(productId, amount) {
@@ -26,7 +25,10 @@ function addToCart(productId, amount) {
     }
 
     // updates the cart number inside the cart icon for the header
-    cartQuantity += amount;
-    let cartDisplayNum = document.querySelector('.cart-quantity');
-    cartDisplayNum.innerText = cartQuantity;
+    let cartQuantity = 0;
+    cart.forEach((item) => {
+        cartQuantity += item.quantity;
+    });
+    document.querySelector('.cart-quantity')
+        .innerText = cartQuantity;
 }

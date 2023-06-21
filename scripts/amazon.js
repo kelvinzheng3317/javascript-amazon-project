@@ -78,7 +78,11 @@ document.querySelectorAll('.js-add-to-cart')
 
            const productContainer = button.closest('.product-container');
            const amount = +productContainer.querySelector('select').value;
+           const added = productContainer.querySelector('.added-to-cart');
            addToCart(productId, amount);
+           added.style.opacity = 1;
+           setTimeout(() => {added.style.opacity = 0;}, 1500);
+
            console.log(cart);   // DEBUGGING STATEMENT
         });
     })
