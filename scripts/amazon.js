@@ -1,6 +1,6 @@
 let productsHTML = '';
 
-products.forEach((product) =>{
+products.forEach((product) => {
     const html = `
         <div class="product-container">
             <div class="product-image-container">
@@ -46,7 +46,9 @@ products.forEach((product) =>{
             Added
             </div>
 
-            <button class="add-to-cart-button button-primary">
+            <button class="add-to-cart-button 
+            button-primary js-add-to-cart"
+            data-product-id="${product.id}">
             Add to Cart
             </button>
         </div>`;
@@ -57,3 +59,26 @@ products.forEach((product) =>{
 let productGrid = document.querySelector('.products-grid');
 productGrid.innerHTML = productsHTML;
 
+document.querySelectorAll('.js-add-to-cart')
+    .forEach((button) => {
+        button.addEventListener('click', () => { 
+            /* In the tutorial, accessing product name is done via the 
+            data attribute 'data-product-name' , but before watching
+            the solution I first solved it using my own method of
+            going up and down the DOM to access product name which can 
+            be found inside a div. Switching from product name to id is 
+            better for multiple reasons so the tutorial code was used
+            instead. My code is found below:
+            (note that addToCart used to contain product name not id)
+
+            const productName = productContainer.querySelector('.product-name').innerText;
+            addToCart(productName, amount);
+            */
+           const productId = button.dataset.productId;
+
+           const productContainer = button.closest('.product-container');
+           const amount = +productContainer.querySelector('select').value;
+           addToCart(productId, amount);
+           console.log(cart);   // DEBUGGING STATEMENT
+        });
+    })
