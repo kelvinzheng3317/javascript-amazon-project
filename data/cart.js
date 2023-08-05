@@ -1,7 +1,7 @@
-const cart = [];
+export const cart = [];
 
 // product argument is a string for the name of the product
-function addToCart(productId, amount) {
+export function addToCart(productId, amount) {
     let productFound = false;
     let productIndex = -1;
 
