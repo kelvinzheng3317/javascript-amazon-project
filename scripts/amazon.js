@@ -1,5 +1,5 @@
-import {cart} from '../data/cart.js';
-import { addToCart } from '../data/cart.js';
+import {cart, addToCart} from '../data/cart.js';
+import { products } from '../data/products.js';
 
 let productsHTML = '';
 
@@ -61,6 +61,8 @@ products.forEach((product) => {
 
 let productGrid = document.querySelector('.products-grid');
 productGrid.innerHTML = productsHTML;
+
+// tutorial add to cart function code is different?
 
 document.querySelectorAll('.js-add-to-cart')
     .forEach((button) => {
