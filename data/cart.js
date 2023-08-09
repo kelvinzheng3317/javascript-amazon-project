@@ -1,10 +1,15 @@
-export const cart = [{
-    "id": 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-    "quantity": 3
-}, {
-    "id": "54e0eccd-8f36-462b-b68a-8182611d9add",
-    "quantity": 2
-}];
+export const cart = JSON.parse(localStorage.getItem('cart')) || [];
+// [{
+//     "id": 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+//     "quantity": 3
+// }, {
+//     "id": "54e0eccd-8f36-462b-b68a-8182611d9add",
+//     "quantity": 2
+// }];
+
+export function saveToStorage() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
 
 // product argument is a string for the name of the product
 export function addToCart(productId, amount) {
@@ -37,6 +42,7 @@ export function addToCart(productId, amount) {
     });
     document.querySelector('.cart-quantity')
         .innerText = cartQuantity;
+    saveToStorage();
 }
 
 
@@ -48,4 +54,5 @@ export function removeFromCart(productId) {
             cart.splice(cart.indexOf(cartItem), 1);
         }
     })
+    saveToStorage();
 }
