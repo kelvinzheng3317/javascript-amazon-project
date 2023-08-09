@@ -38,3 +38,14 @@ export function addToCart(productId, amount) {
     document.querySelector('.cart-quantity')
         .innerText = cartQuantity;
 }
+
+
+// NOTE: this way of removing from the cart is diff from the video
+// I believe this method is more efficient due to not having to copy the array
+export function removeFromCart(productId) {
+    cart.forEach((cartItem) => {
+        if (cartItem.id = productId) {
+            cart.splice(cart.indexOf(cartItem), 1);
+        }
+    })
+}
