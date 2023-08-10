@@ -1,4 +1,4 @@
-import {cart, addToCart, saveToStorage} from '../data/cart.js';
+import {cart, addToCart, getCartQuantity} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
@@ -62,6 +62,9 @@ products.forEach((product) => {
 
 let productGrid = document.querySelector('.products-grid');
 productGrid.innerHTML = productsHTML;
+
+document.querySelector('.cart-quantity').innerText = getCartQuantity();
+
 
 // tutorial add to cart function code is different?
 

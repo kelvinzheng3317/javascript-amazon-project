@@ -1,8 +1,7 @@
-import { cart, removeFromCart, saveToStorage } from "../data/cart.js";
+import { cart, removeFromCart, getCartQuantity, getCartTotal } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
-let totalItemPrice = 0;
 let cartSummaryHtml = "";
 
 cart.forEach((cartItem) => {
@@ -15,9 +14,6 @@ cart.forEach((cartItem) => {
             matchingProduct = product;
         }
     })
-
-    // updates total item price
-    totalItemPrice += matchingProduct.priceCents/100;
 
     cartSummaryHtml += `
     <div class="cart-item-container">
@@ -103,6 +99,29 @@ cart.forEach((cartItem) => {
 
 document.querySelector('.order-summary').innerHTML = cartSummaryHtml;
 
+// update num of items on header
+function cartUpdate() {
+    let cartQuantity = getCartQuantity();
+    let itemTotal = +getCartTotal();
+    let totalShipping = 0;
+    let totalBeforeTax = 0;
+    cart.forEach((cartItem) => {
+        totalShipping += +document.querySelector(`input[name=delivery-option-${cartItem.id}]:checked`).value;
+    })
+    totalBeforeTax = itemTotal + totalShipping;
+
+    document.querySelector(".return-to-home-link").innerHTML = `${cartQuantity} items`;
+    document.querySelector(".payment-item-count").innerHTML = `Items (${cartQuantity}):`;
+    document.querySelector(".payment-items-total").innerHTML = `$${itemTotal}`;
+    document.querySelector(".shipping-total").innerHTML = `$${totalShipping.toFixed(2)}`;
+    document.querySelector(".before-tax-total").innerHTML = `$${totalBeforeTax}`;
+    document.querySelector(".estimated-tax").innerHTML = `$${(totalBeforeTax * 0.1).toFixed(2)}`;
+    document.querySelector(".order-total").innerHTML = `$${(totalBeforeTax * 1.1).toFixed(2)}`;
+}
+
+cartUpdate();
+
+// add functionality to item delete button
 document.querySelectorAll('.js-delete-link').forEach((link) => {
     link.addEventListener('click', (e) => {
         // removes item from cart
@@ -112,5 +131,6 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
         
         // remove item container from checkout page
         e.target.closest('.cart-item-container').remove();
+        cartUpdate();
     })
 })

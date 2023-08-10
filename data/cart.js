@@ -1,4 +1,6 @@
-export const cart = JSON.parse(localStorage.getItem('cart')) || [];
+import { products } from "./products.js";
+
+export let cart = JSON.parse(localStorage.getItem('cart')) || [];
 // [{
 //     "id": 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
 //     "quantity": 3
@@ -36,23 +38,41 @@ export function addToCart(productId, amount) {
     }
 
     // updates the cart number inside the cart icon for the header
-    let cartQuantity = 0;
-    cart.forEach((item) => {
-        cartQuantity += item.quantity;
-    });
+    let cartQuantity = getCartQuantity();
     document.querySelector('.cart-quantity')
         .innerText = cartQuantity;
     saveToStorage();
 }
 
-
-// NOTE: this way of removing from the cart is diff from the video
-// I believe this method is more efficient due to not having to copy the array
+// inefficient method, is there a better way?
 export function removeFromCart(productId) {
+    const newCart = [];
     cart.forEach((cartItem) => {
-        if (cartItem.id = productId) {
-            cart.splice(cart.indexOf(cartItem), 1);
+        if (cartItem.id != productId) {
+            newCart.push(cartItem);
         }
     })
+    cart = newCart;
     saveToStorage();
+}
+
+export function getCartQuantity() {
+    let cartQuantity = 0;
+    cart.forEach((item) => {
+        cartQuantity += item.quantity;
+    });
+    return cartQuantity;
+}
+
+export function getCartTotal() {
+    let cartTotal = 0;
+    // this is very inefficient, O(n^2) essentially
+    cart.forEach((cartItem) => {
+        products.forEach((product) => {
+            if (product.id === cartItem.id) {
+                cartTotal += product.priceCents * cartItem.quantity;
+            }
+        })
+    })
+    return (cartTotal/100).toFixed(2);
 }
