@@ -97,9 +97,11 @@ cart.forEach((cartItem) => {
     </div>`;
 })
 
+// puts order summary on screen, very IMPORTANT LINE
 document.querySelector('.order-summary').innerHTML = cartSummaryHtml;
 
-// update num of items on header
+// update values relating to cart on screen
+// this includes header and order summary
 function cartUpdate() {
     let cartQuantity = getCartQuantity();
     let itemTotal = +getCartTotal();
@@ -114,11 +116,12 @@ function cartUpdate() {
     document.querySelector(".payment-item-count").innerHTML = `Items (${cartQuantity}):`;
     document.querySelector(".payment-items-total").innerHTML = `$${itemTotal}`;
     document.querySelector(".shipping-total").innerHTML = `$${totalShipping.toFixed(2)}`;
-    document.querySelector(".before-tax-total").innerHTML = `$${totalBeforeTax}`;
+    document.querySelector(".before-tax-total").innerHTML = `$${totalBeforeTax.toFixed(2)}`;
     document.querySelector(".estimated-tax").innerHTML = `$${(totalBeforeTax * 0.1).toFixed(2)}`;
     document.querySelector(".order-total").innerHTML = `$${(totalBeforeTax * 1.1).toFixed(2)}`;
 }
 
+// initial call on page load
 cartUpdate();
 
 // add functionality to item delete button
@@ -133,4 +136,11 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
         e.target.closest('.cart-item-container').remove();
         cartUpdate();
     })
+})
+
+document.querySelectorAll('.delivery-option-input').forEach((button) => {
+    button.addEventListener('click', () => {
+        console.log("radio clicked");
+        cartUpdate();
+    });
 })
